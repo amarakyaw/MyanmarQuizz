@@ -19,7 +19,7 @@ export default function Index() {
             <View style={{marginBottom:10}}>
               <Button title='ဆော့ကြစို့' color='#2ac95f'  onPress={() => {router.navigate('/category1')}}  />
             </View>
-             <Button title='လေ့လာမယ်' color='#2ac95f' onPress={() => {}} />
+             <Button title='လေ့လာမယ်' color='#2ac95f' onPress={() => {router.navigate('/(tabs)/byee')}} />
           </View>
         
       </ImageBackground>
