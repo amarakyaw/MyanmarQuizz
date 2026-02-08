@@ -1,27 +1,38 @@
-import { router, Tabs } from "expo-router";
-import { Image, Pressable, Text } from "react-native";
-
+import { Ionicons } from "@expo/vector-icons";
+import { Tabs } from "expo-router";
 export default function RootLayout() {
   return (
     <Tabs>
-      
-
-      <Tabs.Screen name="byee" options={{
-            headerShown: false,
-            title: "ဗျည်း",
-            tabBarLabelStyle:{
-                color:'#459c62'
-            },
-            tabBarIcon: () => 
-                (
-               <Image
-              source={require("../../assets/images/icon1.jpeg")}
-              style={{ width: 24, height: 24 }}
-            />
+      <Tabs.Screen
+        name="tb1"
+        options={{
+          
+          title: "စကားထာ",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="book-sharp" size={size} color={color} />
           ),
         }}
       />
-      <Tabs.Screen name="taya" options={{ headerShown: false, title: "သရ" }} />
+      <Tabs.Screen
+        name="tb2"
+        options={{
+          
+          title: "စကားပုံ",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="book-sharp" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="tb3"
+        options={{
+          
+          title: "စကားလိမ်",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="book-sharp" size={size} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

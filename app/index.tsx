@@ -13,13 +13,15 @@ export default function Index() {
         style={styles.background}
         resizeMode='contain'
       >
-        <Text style={styles.text}>မြန်မာ့ရိုးရာ စကားထာ၊စကားလိမ် ကစားနည်း</Text>
+        <Text style={styles.text}>မြန်မာ့ရိုးရာ စကားထာ ၊ စကားပုံ ၊ စကားလိမ် ကစားနည်း</Text>
         
           <View style={styles.buttonWrapper}>
             <View style={{marginBottom:10}}>
-              <Button title='ဆော့ကြစို့' color='#2ac95f'  onPress={() => {router.navigate('/category1')}}  />
+              
+              <Button title='ဆော့ကြစို့' color='#b58bf9'   onPress={() => router.navigate('/category')}  />
+            
             </View>
-             <Button title='လေ့လာမယ်' color='#2ac95f' onPress={() => {router.navigate('/(tabs)/byee')}} />
+             <Button title='လေ့လာမယ်' color='#b58bf9' onPress={() => {router.navigate('/(tabs)/tb1')}} />
           </View>
         
       </ImageBackground>
@@ -33,17 +35,20 @@ const styles = StyleSheet.create({
     height:'100%',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor:'#EEF3FB'
   },
   text: {
     fontFamily: 'Myanmar',
-    color: 'black',
-    marginTop:'10%',
+    color: '#b58bf9',
+    
+    fontSize:17
   },
   buttonWrapper: {
     
     width:'30%',
+  
     opacity:0.8,
-    marginTop:'20%'
+    marginTop:'30%'
   },
   
 });

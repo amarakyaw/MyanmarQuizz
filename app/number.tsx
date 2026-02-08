@@ -1,52 +1,46 @@
-import { router } from 'expo-router'
-import React from 'react'
-import { Button, StyleSheet, Text, View } from 'react-native'
+import { router, useLocalSearchParams } from "expo-router";
+import React from "react";
+import { Button, StyleSheet, Text, View } from "react-native";
 
-const Number = () => {
-    const handlePress =(value:string)=>{
-        if(value==='10')
-        {
-            router.navigate('/tenQuestions')
-        }
-    }
+const QuizNumber = () => {
+  const handlePress = (num: number) => {
+    // Only pass numQuestions as query param
+    router.push(`/questions?numQuestions=${num}&category=${category}`);
+    
+  };
+const{category} = useLocalSearchParams<{category: string}>();
   return (
     <View style={styles.container}>
-      <View style={styles.innerbox}>
-        <Text style={styles.text}>မေးခွန်း အရေအတွက်</Text>
-        <View style={styles.btn}>
-            <Button title='၁၀' color='#35a45a' onPress={()=> handlePress('10')}/>
-        </View>
-        <View style={styles.btn}>
-            <Button title='၂၀' color='#35a45a' onPress={()=>handlePress('20')}/>
-        </View>
-        <View style={styles.btn}>
-            <Button title='၃၀' color='#35a45a' onPress={()=>handlePress('30')} />
-        </View>
+      <Text style={styles.text}>မေးခွန်း အရေအတွက်</Text>
+
+      <View style={styles.buttonWrapper}>
+        <Button title="၁၀" color="#b58bf9" onPress={() => handlePress(10)} />
+      </View>
+
+      <View style={styles.buttonWrapper}>
+        <Button title="၂၀" color="#b58bf9" onPress={() => handlePress(20)} />
       </View>
     </View>
-  )
-}
+  );
+};
 
-export default Number
+export default QuizNumber;
 
 const styles = StyleSheet.create({
-    text:{
-        fontSize:20,
-        color:'#35a45a',
-        fontWeight:'bold'
-        
-    },
-    container:{
-        flex:1,
-        backgroundColor:'#D8B89A',
-        // justifyContent:'center',
-        alignItems:'center'
-    },
-    innerbox:{
-        marginTop:'60%'
-    },
-    btn:{
-        opacity:0.6,
-        marginTop:40
-    }
-})
+  container: {
+    flex: 1,
+    backgroundColor: "#D6B9FF",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 22,
+    color: "#b58bf9",
+    fontWeight: "bold",
+    marginBottom: 30,
+  },
+  buttonWrapper: {
+    width: "60%",
+    marginTop: 20,
+  },
+});
