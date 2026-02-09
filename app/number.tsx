@@ -1,6 +1,7 @@
+import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const QuizNumber = () => {
   const handlePress = (num: number) => {
@@ -23,6 +24,20 @@ const{category} = useLocalSearchParams<{category: string}>();
       <View style={styles.buttonWrapper}>
         <Button title="ခက်ခဲသော" color="#b58bf9" onPress={() => handlePress(20)} />
       </View>
+      <TouchableOpacity
+        onPress={() => router.navigate('/category')}
+        style={{
+          flexDirection: "row",
+          alignItems: "flex-start",
+          alignSelf: "flex-start",
+          marginTop:'20%'
+        }}
+      >
+        <Ionicons name="arrow-back-outline" size={24} color="#4C1D95" />
+        <Text style={{ fontSize: 16, color: "#4C1D95", marginLeft: 6 }}>
+          နောက်သို့
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };

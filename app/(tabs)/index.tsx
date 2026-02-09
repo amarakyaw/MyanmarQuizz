@@ -1,5 +1,6 @@
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Index() {
@@ -8,6 +9,7 @@ export default function Index() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#f3e8ff',justifyContent:'center',alignItems:'center'  }}>
+      
    
         <Text style={styles.text}>မြန်မာ့ရိုးရာ စကားထာ ၊ စကားပုံ ၊ စကားလိမ် ကစားနည်း</Text>
         
