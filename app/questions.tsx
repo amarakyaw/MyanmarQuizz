@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useContext, useEffect, useState } from "react";
 
+import { Ionicons } from '@expo/vector-icons';
 import {
   Pressable,
   StyleSheet,
@@ -116,7 +117,7 @@ const TenQuestions = () => {
         <Text style={styles.cardCategory}>{category}</Text>
 
         <Text style={styles.cardQuestion}>
-          မေးခွန်းနံပါတ်  {toMyanmarNumber(current + 1)} {'\n'} {q.question}
+          မေးခွန်းနံပါတ်  {toMyanmarNumber(current + 1)} ။ {'\n'} {q.question}  
         </Text>
 
 
@@ -152,11 +153,11 @@ const TenQuestions = () => {
           style={styles.actionButton}
           onPress={() => handleRouter()}
         >
-          <Text style={styles.actionText}>နောက်သို့။</Text>
+          <Text style={styles.actionText}><Ionicons name="arrow-back-outline" size={20} color="white" /> နောက်သို့</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.actionButton} onPress={nextQuestion}>
-          <Text style={styles.actionText}>ကျော်မည်။</Text>
+          <Text style={styles.actionText}>ကျော်မည်<Ionicons name="arrow-forward-outline" size={20} color="white" /></Text>
         </TouchableOpacity>
       </View>
 
