@@ -8,14 +8,14 @@ const Result = () => {
   const isPassed = score > total / 2;
 
   const handleRestart = () => {
-    setScore(0); // reset score
+    setScore(0); 
     router.push("/category");
   };
 
-  const progress = score / total; // 0 to 1
-  const progressPercent = Math.round(progress * 100); // percentage
+  const progress = score / total; 
+  const progressPercent = Math.round(progress * 100);
 
-  // Render common progress bar
+ 
   const ProgressBar = () => (
     <View style={styles.progressBar}>
       <View style={[styles.progressFill, { width: `${progressPercent}%` }]} />
@@ -32,7 +32,7 @@ const Result = () => {
           {toMyanmarNumber(total)}
         </Text>
 
-        {/* Progress bar */}
+        
         <ProgressBar />
 
         <TouchableOpacity style={styles.button} onPress={handleRestart}>
@@ -48,7 +48,7 @@ const Result = () => {
           သင်၏ ရမှတ် {toMyanmarNumber(score)} / {toMyanmarNumber(total)}
         </Text>
 
-        {/* Progress bar */}
+       
         <ProgressBar />
 
         <TouchableOpacity style={styles.button} onPress={handleRestart}>
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#D6B9FF",
+    backgroundColor: "#f3e8ff",
   },
   title: {
     fontSize: 28,

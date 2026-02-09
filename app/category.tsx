@@ -1,6 +1,6 @@
 import { router } from 'expo-router'
 import React from 'react'
-import { Button, StyleSheet, View } from 'react-native'
+import { Button, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Category = () => {
@@ -9,6 +9,7 @@ const Category = () => {
   }
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={{fontSize:20,fontWeight:'bold',color:'#b58bf9'}}> မေးခွန်း အမျိုးအစား ရွေးချယ်ပါ</Text>
      <View style={styles.btn}>
     
          <Button title='စကားထာ' color='#b58bf9' onPress={()=>categoryRouter('စကားထာ')}/>
@@ -17,7 +18,7 @@ const Category = () => {
         <Button title='စကားပုံ' color='#b58bf9' onPress={()=>categoryRouter('စကားပုံ')}/>
      </View>
      <View style={styles.btn}>
-        <Button title='စကားလိမ်' color='#b58bf9' onPress={()=>router.push('/sakalainCategory')}/>
+        <Button title='စကားလိမ်' color='#b58bf9' onPress={()=>categoryRouter('စကားလိမ်')}/>
      </View>
      
     </SafeAreaView>
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     },
     container:{
         flex:1,
-         backgroundColor:'#D6B9FF',
+         backgroundColor:'#f3e8ff',
          justifyContent:'center',
          alignItems:'center',
          

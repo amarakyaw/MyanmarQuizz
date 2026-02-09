@@ -3,36 +3,39 @@ import { Tabs } from "expo-router";
 export default function RootLayout() {
   return (
     <Tabs>
+
       <Tabs.Screen
-        name="tb1"
+        name="index"
         options={{
-          
-          title: "စကားထာ",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="book-sharp" size={size} color={color} />
+          title: "ပင်မစာမျက်နှာ",
+          headerShown: false,
+          tabBarIcon: ({  focused,size }) => (
+            <Ionicons name= {focused ? "home" : "home-outline"} size={size} color='#B581FD' />
           ),
         }}
       />
       <Tabs.Screen
-        name="tb2"
+        name="learn"
         options={{
-          
-          title: "စကားပုံ",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="book-sharp" size={size} color={color} />
+          title: "လေ့လာမယ်",
+          headerShown: false,
+          tabBarIcon: ({  focused,size}) => (
+            <Ionicons name= {focused ? "book" : "book-outline"} size={size} color='#B581FD' />
           ),
         }}
       />
       <Tabs.Screen
-        name="tb3"
+        name="bookmark"
         options={{
-          
-          title: "စကားလိမ်",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="book-sharp" size={size} color={color} />
+          title: "မှတ်စုများ",
+          headerShown: false,
+          tabBarIcon: ({  focused,size }) => (
+            <Ionicons name= {focused ? "bookmark" : "bookmark-outline"} size={size} color='#B581FD' />
           ),
-        }}
-      />
+        }}/>
+
+
+     
     </Tabs>
   );
 }

@@ -1,6 +1,6 @@
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { router } from 'expo-router';
 import React from 'react';
-import { Link } from 'expo-router';
+import { Pressable, ScrollView, StyleSheet, Text } from 'react-native';
 
 import { sakaLain } from '@/data/sakarlain';
 
@@ -9,9 +9,9 @@ const Tab1 = () => {
     <ScrollView style={styles.container}>
       <Text style={styles.text}>{sakaLain}</Text>
 
-      <Link href="/">
-        <Text style={styles.backButton}>နောက်သို့သွားမည်။</Text>
-      </Link>
+      <Pressable onPress={() => router.navigate('../(tabs)/learn')}> 
+              <Text style={styles.backButton}>နောက်သို့သွားမည်။</Text>
+            </Pressable>
     </ScrollView>
   );
 };
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    backgroundColor:'#F3E8FF'
   },
   text: {
     fontSize: 16,
