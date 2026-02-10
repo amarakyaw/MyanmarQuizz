@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: "center",
     color: "#b58bf9",
-    marginStart:'10%'
+    
   },
   score: { fontSize: 22, fontWeight: "600", marginBottom: 20  , color: "#b58bf9" },
   progressBar: {

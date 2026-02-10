@@ -176,12 +176,12 @@ const TenQuestions = () => {
           onPress={previousQuestion}
         >
           <Text style={styles.actionText}>
-            <Ionicons name="arrow-back-outline" size={20} color="white" /> ရှေ့သို့
+          ရှေ့သို့
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.actionButton} onPress={nextQuestion}>
-          <Text style={styles.actionText}>နောက်သို့<Ionicons name="arrow-forward-outline" size={20} color="white" />
+          <Text style={styles.actionText}>နောက်သို့
           </Text>
         </TouchableOpacity>
       </View>
@@ -217,6 +217,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "700",
     color: "#EEF3FB",
+    marginTop:0,
   },
   quizCard: {
     backgroundColor: "#FFFFFF",
