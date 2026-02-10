@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet, Pressable, TouchableOpacity } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { toMyanmarNumber } from "../../context/quizContext";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 type QuizItem = {
@@ -71,13 +70,13 @@ const Bookmarks = () => {
             <View style={styles.card}>
                 <Text>{item.title}</Text>
               <Text>
-                မေးခွန်း {toMyanmarNumber(index + 1)}: {item.question}
+                မေးခွန်း: {item.question}
               </Text>
               <Text>
                 အဖြေ: {getCorrectAnswer(item)}
               </Text>
-              <TouchableOpacity onPress={() => deleteBookmark(item.id)}>
-                  <Ionicons name="trash-bin-outline" size={24} color="red" />
+              <TouchableOpacity onPress={() => deleteBookmark(item.id)} style={{position:'absolute',right:10,top:'70%'}} >
+                  <Ionicons name="bookmark" size={24} color="#B581FD" />
                 </TouchableOpacity>
               </View>
             

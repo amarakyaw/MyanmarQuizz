@@ -119,8 +119,9 @@ const TenQuestions = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.cardCategory}>{category}</Text>
       <View style={styles.quizCard}>
-        <Text style={styles.cardCategory}>{category}</Text>
+        
 
         <Text style={styles.cardQuestion}>
           မေးခွန်းနံပါတ် {toMyanmarNumber(current + 1)} ။ {'\n'} {q.question}  
@@ -138,14 +139,16 @@ const TenQuestions = () => {
                   style={[
                     styles.cardOptionButton,
                     
-                    selectedOption && isCorrect ? { backgroundColor: "#b58bf9" } : null,
+                    selectedOption && isCorrect ? { backgroundColor: "#cff98b" } : null,
                     
-                    selectedOption && isSelected && !isCorrect ? { backgroundColor:'red'} : null,
+                    selectedOption && isSelected && !isCorrect ? { backgroundColor:'rgba(250, 104, 104, 0.8)' }  : null,
                   ]}
                   onPress={() => checkAnswer(key)}
                   disabled={!!selectedOption} 
                 >
-                  <Text style={styles.cardOptionText}>{q[key]}</Text>
+                  <Text style={[styles.cardOptionText,selectedOption && isCorrect ? {color:'#4C1D95'} : null,
+                    selectedOption && isSelected && !isCorrect ?{color:'white'} : null
+                   ]}>{q[key]}</Text>
                 </TouchableOpacity>
               );
             }
@@ -160,7 +163,7 @@ const TenQuestions = () => {
            </Text>
             <Pressable onPress={() => saveItem(q.id)}>
             
-            <Text style={styles.bookmark}>{saved ? "❤️" : "🤍"}</Text>
+            <Text style={styles.bookmark}><Ionicons name={saved ? "bookmark" : "bookmark-outline"} size={24} color="#B581FD" /></Text>
           </Pressable>
           </View>
        
@@ -173,13 +176,12 @@ const TenQuestions = () => {
           onPress={previousQuestion}
         >
           <Text style={styles.actionText}>
-            <Ionicons name="arrow-back-outline" size={20} color="white" /> နောက်သို့
+            <Ionicons name="arrow-back-outline" size={20} color="white" /> ရှေ့သို့
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.actionButton} onPress={nextQuestion}>
-          <Text style={styles.actionText}>
-            ကျော်မည် <Ionicons name="arrow-forward-outline" size={20} color="white" />
+          <Text style={styles.actionText}>နောက်သို့<Ionicons name="arrow-forward-outline" size={20} color="white" />
           </Text>
         </TouchableOpacity>
       </View>
@@ -227,7 +229,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   cardCategory: {
-    fontSize: 18,
+    fontSize: 30,
     fontWeight: "700",
     color: "#4C1D95",
     marginBottom: 12,
@@ -253,7 +255,6 @@ const styles = StyleSheet.create({
   cardOptionText: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#4C1D95",
     textAlign: "center",
   },
   lengthRow: {

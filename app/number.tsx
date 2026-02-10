@@ -12,7 +12,23 @@ const QuizNumber = () => {
 const{category} = useLocalSearchParams<{category: string}>();
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>မေးခွန်း အဆင့်</Text>
+      <TouchableOpacity
+        onPress={() => router.navigate('/category')}
+        style={{
+          flexDirection: "row",
+          alignItems: "flex-start",
+          alignSelf: "flex-start",
+          marginTop:10
+        }}
+      >
+        <Ionicons name="arrow-back-outline" size={24} color="#4C1D95" />
+        <Text style={{ fontSize: 16, color: "#4C1D95", marginLeft: 6 }}>
+          ရှေ့သို့
+        </Text>
+      </TouchableOpacity>
+      
+      <View style={styles.innerText}>
+        <Text style={styles.text}>မေးခွန်း အဆင့်</Text>
 
       <View style={styles.buttonWrapper}>
         <Button title="လွယ်ကူသော" color="#b58bf9" onPress={() => handlePress(5)} />
@@ -24,20 +40,9 @@ const{category} = useLocalSearchParams<{category: string}>();
       <View style={styles.buttonWrapper}>
         <Button title="ခက်ခဲသော" color="#b58bf9" onPress={() => handlePress(20)} />
       </View>
-      <TouchableOpacity
-        onPress={() => router.navigate('/category')}
-        style={{
-          flexDirection: "row",
-          alignItems: "flex-start",
-          alignSelf: "flex-start",
-          marginTop:'20%'
-        }}
-      >
-        <Ionicons name="arrow-back-outline" size={24} color="#4C1D95" />
-        <Text style={{ fontSize: 16, color: "#4C1D95", marginLeft: 6 }}>
-          နောက်သို့
-        </Text>
-      </TouchableOpacity>
+      
+      </View>
+      
     </View>
   );
 };
@@ -48,8 +53,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f3e8ff",
-    justifyContent: "center",
-    alignItems: "center",
+    
   },
   text: {
     fontSize: 22,
@@ -61,4 +65,10 @@ const styles = StyleSheet.create({
     width: "60%",
     marginTop: 20,
   },
+  innerText:{
+    justifyContent:'center',
+         alignItems:'center',
+         marginTop:'50%'
+
+  }
 });

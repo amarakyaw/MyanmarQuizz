@@ -2,12 +2,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 export default function RootLayout() {
   return (
-    <Tabs>
+    <Tabs screenOptions={{tabBarActiveTintColor:'#B581FD'}}>
 
       <Tabs.Screen
         name="index"
         options={{
           title: "ပင်မစာမျက်နှာ",
+          
           headerShown: false,
           tabBarIcon: ({  focused,size }) => (
             <Ionicons name= {focused ? "home" : "home-outline"} size={size} color='#B581FD' />

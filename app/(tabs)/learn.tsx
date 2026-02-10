@@ -1,4 +1,3 @@
-import { Ionicons } from '@expo/vector-icons'
 import { router } from 'expo-router'
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
@@ -12,13 +11,13 @@ const Learn = () => {
         
      <View style={styles.btn}>
     <TouchableOpacity style={{alignItems:'flex-start'}} onPress={()=>router.navigate('/tb1')} >
-        <Text style={styles.text}>စကားထာ📖</Text>
+        <Text style={styles.text}>📖စကားထာ</Text>
     </TouchableOpacity>
          <TouchableOpacity style={{alignItems:'flex-start'}} onPress={()=>router.navigate('/tb2')} >
-        <Text style={styles.text}>စကားပုံ📖</Text>
+        <Text style={styles.text}>📖စကားပုံ</Text>
     </TouchableOpacity>
          <TouchableOpacity style={{alignItems:'flex-start'}}    onPress={()=>router.navigate('/tb3')} >
-        <Text style={styles.text}>စကားလိမ်📖</Text>
+        <Text style={styles.text}>📖စကားလိမ်</Text>
     </TouchableOpacity>
      </View>
      

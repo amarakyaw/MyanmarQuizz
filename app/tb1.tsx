@@ -1,16 +1,14 @@
 import { sakahtar } from '@/data/sakahtar';
-import { router } from 'expo-router';
 import React from 'react';
-import { Pressable, ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet, Text } from 'react-native';
 
 const Tab1 = () => {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.text}>{sakahtar}</Text>
-
-      <Pressable onPress={() => router.navigate('../(tabs)/learn')}> 
+      {/* <Pressable onPress={() => router.navigate('../(tabs)/learn')}> 
         <Text style={styles.backButton}>နောက်သို့သွားမည်။</Text>
-      </Pressable>
+      </Pressable> */}
     </ScrollView>
   );
 };
@@ -22,16 +20,18 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: '#F3E8FF',
+    
   },
   text: {
     fontSize: 16,
     lineHeight: 24,
+    // backgroundColor:'red',
+    
   },
   backButton: {
     color: '#1E3A8A',
     fontSize: 16,
     fontWeight: 'bold',
-   
     textDecorationLine: 'underline',
   },
 });

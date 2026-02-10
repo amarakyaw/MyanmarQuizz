@@ -43,7 +43,7 @@ const Result = () => {
   } else {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>ရှုံးသည် ။ 😖</Text>
+        <Text style={styles.title}>သင်မအောင်မြင်ပါ။ 😖</Text>
         <Text style={styles.score}>
           သင်၏ ရမှတ် {toMyanmarNumber(score)} / {toMyanmarNumber(total)}
         </Text>
@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: "center",
     color: "#b58bf9",
+    marginStart:'10%'
   },
   score: { fontSize: 22, fontWeight: "600", marginBottom: 20  , color: "#b58bf9" },
   progressBar: {
