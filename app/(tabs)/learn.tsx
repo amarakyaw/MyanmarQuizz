@@ -10,13 +10,13 @@ const Learn = () => {
     <SafeAreaView style={styles.container}>
         
      <View style={styles.btn}>
-    <TouchableOpacity style={{alignItems:'flex-start'}} onPress={()=>router.navigate('/tb1')} >
+    <TouchableOpacity style={{alignItems:'flex-start'}} onPress={()=>router.navigate('/AboutSakahtar')} >
         <Text style={styles.text}>📖စကားထာ</Text>
     </TouchableOpacity>
-         <TouchableOpacity style={{alignItems:'flex-start'}} onPress={()=>router.navigate('/tb2')} >
+         <TouchableOpacity style={{alignItems:'flex-start'}} onPress={()=>router.navigate('/AboutSakapone')} >
         <Text style={styles.text}>📖စကားပုံ</Text>
     </TouchableOpacity>
-         <TouchableOpacity style={{alignItems:'flex-start'}}    onPress={()=>router.navigate('/tb3')} >
+         <TouchableOpacity style={{alignItems:'flex-start'}}    onPress={()=>router.navigate('/aboutSakalain')} >
         <Text style={styles.text}>📖စကားလိမ်</Text>
     </TouchableOpacity>
      </View>

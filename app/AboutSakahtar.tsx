@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     lineHeight: 24,
-    // backgroundColor:'red',
+    opacity:0.6
     
   },
   backButton: {

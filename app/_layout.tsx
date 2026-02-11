@@ -6,9 +6,9 @@ export default function RootLayout() {
     <QuizProvider>
       <Stack screenOptions={{ headerShown: false ,}}>
         <Stack.Screen name="(tabs)" />
-        <Stack.Screen name='tb1' options={{headerShown:true , title:'စကားထာ',headerTintColor:'#b58bf9',headerTitleAlign:'center'} } />
-        <Stack.Screen name='tb2' options={{headerShown:true , title:'စကားပုံ',headerTintColor:'#b58bf9'}}/>
-        <Stack.Screen name='tb3' options={{headerShown:true , title:'စကားလိမ်',headerTintColor:'#b58bf9'}}/>
+        <Stack.Screen name='AboutSakahtar' options={{headerShown:true , title:'စကားထာ',headerTintColor:'#4C1D95',headerTitleAlign:'center'} } />
+        <Stack.Screen name='AboutSakapone' options={{headerShown:true , title:'စကားပုံ',headerTintColor:'#4C1D95',headerTitleAlign:'center'}}/>
+        <Stack.Screen name='aboutSakalain' options={{headerShown:true , title:'စကားလိမ်',headerTintColor:'#4C1D95',headerTitleAlign:'center'}}/>
       </Stack>
     </QuizProvider>
   );

@@ -139,14 +139,14 @@ const TenQuestions = () => {
                   style={[
                     styles.cardOptionButton,
                     
-                    selectedOption && isCorrect ? { backgroundColor: "#cff98b" } : null,
+                    selectedOption && isCorrect ? { backgroundColor: "#69cc00" } : null,
                     
-                    selectedOption && isSelected && !isCorrect ? { backgroundColor:'rgba(250, 104, 104, 0.8)' }  : null,
+                    selectedOption && isSelected && !isCorrect ? { backgroundColor:'#ff4d52' }  : null,
                   ]}
                   onPress={() => checkAnswer(key)}
                   disabled={!!selectedOption} 
                 >
-                  <Text style={[styles.cardOptionText,selectedOption && isCorrect ? {color:'#4C1D95'} : null,
+                  <Text style={[styles.cardOptionText,selectedOption && isCorrect ? {color:'white'} : null,
                     selectedOption && isSelected && !isCorrect ?{color:'white'} : null
                    ]}>{q[key]}</Text>
                 </TouchableOpacity>
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
   cardCategory: {
     fontSize: 30,
     fontWeight: "700",
-    color: "#4C1D95",
+    color: "#b58bf9",
     marginBottom: 12,
   },
   cardQuestion: {
@@ -257,6 +257,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
     textAlign: "center",
+    color:'#4C1D95'
   },
   lengthRow: {
   flexDirection: "row",
