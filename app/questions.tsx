@@ -32,7 +32,8 @@ const TenQuestions = () => {
   const [current, setCurrent] = useState(0);
   const { score, setScore, setTotal } = useContext(QuizContext);
   const [saved, setSaved] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string|null>(null);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [answers, setAnswers] = useState<Record<number, string | null>>({});
 
   useEffect(() => {
     getQuiz();
@@ -45,13 +46,11 @@ const TenQuestions = () => {
       const res = await fetch(url);
       const data = await res.json();
 
-      
-
       const filtered = data.quiz.filter((item: any) => item.title === category.trim());
       const shuffled = filtered.sort(() => 0.5 - Math.random());
       setQuiz(shuffled.slice(0, Number(numQuestions)));
       setTotal(Number(numQuestions));
-      setScore(0); // reset score
+      setScore(0);
     } catch (error) {
       console.error(error);
     }
@@ -59,53 +58,56 @@ const TenQuestions = () => {
 
   const previousQuestion = () => {
     if (current > 0) {
-      setCurrent(prev => prev - 1);
+      const newIndex = current - 1;
+      setCurrent(newIndex);
       setSaved(false);
-      setSelectedOption(null);
-    } else {
-      router.push("/category");
+      setSelectedOption(answers[newIndex] ?? null);
     }
   }
 
   const checkAnswer = (selected: string) => {
-    setSelectedOption(selected); 
-    if (selected === quiz[current].correct_answer) {
-      setScore(score + 1);
+    const question = quiz[current];
+    const prevAnswer = answers[current] ?? null;
+
+    setAnswers(prev => ({ ...prev, [current]: selected }));
+    setSelectedOption(selected);
+
+    if (prevAnswer !== question.correct_answer && selected === question.correct_answer) {
+      setScore(score+ 1);
+    } else if (prevAnswer === question.correct_answer && selected !== question.correct_answer) {
+      setScore(score- 1);
     }
-    
   };
 
   const saveItem = async (id: string) => {
-  setSaved(prev => !prev);
+    setSaved(prev => !prev);
 
-  try {
-    
-    const savedData = await AsyncStorage.getItem("bookmarks");
-    let bookmarks: QuizItem[] = savedData ? JSON.parse(savedData) : [];
+    try {
+      const savedData = await AsyncStorage.getItem("bookmarks");
+      let bookmarks: QuizItem[] = savedData ? JSON.parse(savedData) : [];
 
-    const question = quiz.find(q => q.id === id);
-    if (!question) return;
+      const question = quiz.find(q => q.id === id);
+      if (!question) return;
 
-    if (!saved) {
-      // Add to bookmarks
-      bookmarks.push(question);
-    } else {
-      //id same like booksaved
-      bookmarks = bookmarks.filter(q => q.id !== id);
+      if (!saved) {
+        bookmarks.push(question);
+      } else {
+        bookmarks = bookmarks.filter(q => q.id !== id);
+      }
+
+      await AsyncStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+    } catch (err) {
+      console.error("Error saving bookmark", err);
     }
-
-    await AsyncStorage.setItem("bookmarks", JSON.stringify(bookmarks));
-  } catch (err) {
-    console.error("Error saving bookmark", err);
-  }
-};
+  };
 
 
   const nextQuestion = () => {
     if (current < quiz.length - 1) {
-      setCurrent(prev => prev + 1);
+      const newIndex = current + 1;
+      setCurrent(newIndex);
       setSaved(false);
-      setSelectedOption(null); 
+      setSelectedOption(answers[newIndex] ?? null);
     } else {
       router.push("/result");
     }
@@ -121,8 +123,6 @@ const TenQuestions = () => {
     <View style={styles.container}>
       <Text style={styles.cardCategory}>{category}</Text>
       <View style={styles.quizCard}>
-        
-
         <Text style={styles.cardQuestion}>
           မေးခွန်းနံပါတ် {toMyanmarNumber(current + 1)} ။ {'\n'} {q.question}  
         </Text>
@@ -138,15 +138,14 @@ const TenQuestions = () => {
                   key={index}
                   style={[
                     styles.cardOptionButton,
-                    
                     selectedOption && isCorrect ? { backgroundColor: "#69cc00" } : null,
-                    
                     selectedOption && isSelected && !isCorrect ? { backgroundColor:'#ff4d52' }  : null,
                   ]}
                   onPress={() => checkAnswer(key)}
-                  disabled={!!selectedOption} 
+                  disabled={!!selectedOption}
                 >
-                  <Text style={[styles.cardOptionText,selectedOption && isCorrect ? {color:'white'} : null,
+                  <Text style={[styles.cardOptionText,
+                    selectedOption && isCorrect ? {color:'white'} : null,
                     selectedOption && isSelected && !isCorrect ?{color:'white'} : null
                    ]}>{q[key]}</Text>
                 </TouchableOpacity>
@@ -155,28 +154,24 @@ const TenQuestions = () => {
           )}
         </View>
 
-        
-          
-          <View style={styles.lengthRow}>
-            <Text style={styles.lengthText}>
-          မေးခွန်း {toMyanmarNumber(current + 1)} / {toMyanmarNumber(quiz.length)}
-           </Text>
-            <Pressable onPress={() => saveItem(q.id)}>
-            
+        <View style={styles.lengthRow}>
+          <Text style={styles.lengthText}>
+            မေးခွန်း {toMyanmarNumber(current + 1)} / {toMyanmarNumber(quiz.length)}
+          </Text>
+          <Pressable onPress={() => saveItem(q.id)}>
             <Text style={styles.bookmark}><Ionicons name={saved ? "bookmark" : "bookmark-outline"} size={24} color="#B581FD" /></Text>
           </Pressable>
-          </View>
-       
-        
+        </View>
       </View>
 
       <View style={styles.bottom}>
         <TouchableOpacity
-          style={styles.actionButton}
+          style={[styles.actionButton, current === 0 ? { opacity: 0.5 } : null]}
           onPress={previousQuestion}
+          disabled={current === 0}
         >
           <Text style={styles.actionText}>
-          ရှေ့သို့
+            ရှေ့သို့
           </Text>
         </TouchableOpacity>
 
@@ -260,25 +255,22 @@ const styles = StyleSheet.create({
     color:'#4C1D95'
   },
   lengthRow: {
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "flex-end", 
-  width: "100%",
-  marginTop: 10,
-  position: "relative",
-},
-lengthText: {
-  position: "absolute",
-  left: 0,
-  right: 0,
-  textAlign: "center",
-  fontSize: 14,
-  color: "#6B7280",
-},
-bookmark: {
-  fontSize: 24,
- 
-},
-
-  
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end", 
+    width: "100%",
+    marginTop: 10,
+    position: "relative",
+  },
+  lengthText: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    textAlign: "center",
+    fontSize: 14,
+    color: "#6B7280",
+  },
+  bookmark: {
+    fontSize: 24,
+  },
 });
