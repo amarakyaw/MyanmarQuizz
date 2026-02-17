@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   buttonWrapper: {
     
     width:'30%',
-    marginTop:'30%'
+    marginTop:'20%'
   },
   
 });

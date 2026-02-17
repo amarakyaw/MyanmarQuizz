@@ -66,7 +66,7 @@ const Bookmarks = () => {
         <FlatList
           data={bookmarks}
           keyExtractor={(item) => item.id}
-          renderItem={({ item, index }) => (
+          renderItem={({ item}) => (
             <View style={styles.card}>
                 <Text>{item.title}</Text>
               <Text>

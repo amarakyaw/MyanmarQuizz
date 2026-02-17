@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     innerText:{
         justifyContent:'center',
          alignItems:'center',
-         marginTop:'50%'
+         marginTop:'20%'
     }
     
 })
