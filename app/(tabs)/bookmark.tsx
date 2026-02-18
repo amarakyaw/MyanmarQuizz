@@ -2,7 +2,13 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 type QuizItem = {
@@ -12,7 +18,7 @@ type QuizItem = {
   option2: string;
   option3: string;
   option4: string;
-  correct_answer: string; 
+  correct_answer: string;
   title: string;
 };
 
@@ -29,18 +35,21 @@ const Bookmarks = () => {
     getBookmarks();
   }, []);
 
-  
   const getCorrectAnswer = (item: QuizItem) => {
     switch (item.correct_answer) {
-      case "option1": return item.option1;
-      case "option2": return item.option2;
-      case "option3": return item.option3;
-      case "option4": return item.option4;
-      default: return "";
+      case "option1":
+        return item.option1;
+      case "option2":
+        return item.option2;
+      case "option3":
+        return item.option3;
+      case "option4":
+        return item.option4;
+      default:
+        return "";
     }
   };
-  const deleteBookmark=async(id:string)=>{
-    
+  const deleteBookmark = async (id: string) => {
     const data = await AsyncStorage.getItem("bookmarks");
     if (!data) return;
 
@@ -48,38 +57,37 @@ const Bookmarks = () => {
 
     await AsyncStorage.setItem("bookmarks", JSON.stringify(updated));
     setBookmarks(updated);
-
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-        <TouchableOpacity
-                  onPress={() => router.back()}
-                  style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
-                >
-                  <Ionicons name="arrow-back-outline" size={24} color="#4C1D95" />
-                  <Text style={{ fontSize: 16, color: '#4C1D95', marginLeft: 6 }}>နောက်သို့</Text>
-                </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => router.back()}
+        style={{ flexDirection: "row", alignItems: "center", marginBottom: 20 }}
+      >
+        <Ionicons name="arrow-back-outline" size={24} color="#4C1D95" />
+        <Text style={{ fontSize: 16, color: "#4C1D95", marginLeft: 6 }}>
+          နောက်သို့
+        </Text>
+      </TouchableOpacity>
       {bookmarks.length === 0 ? (
         <Text style={styles.emptyText}>မည်သည့်မေးခွန်းမှ မသိမ်းထားသေးပါ။</Text>
       ) : (
         <FlatList
           data={bookmarks}
           keyExtractor={(item) => item.id}
-          renderItem={({ item}) => (
+          renderItem={({ item, index }) => (
             <View style={styles.card}>
-                <Text>{item.title}</Text>
-              <Text>
-                မေးခွန်း: {item.question}
-              </Text>
-              <Text>
-                အဖြေ: {getCorrectAnswer(item)}
-              </Text>
-              <TouchableOpacity onPress={() => deleteBookmark(item.id)} style={{position:'absolute',right:10,top:'70%'}} >
-                  <Ionicons name="bookmark" size={24} color="#B581FD" />
-                </TouchableOpacity>
-              </View>
-            
+              <Text>{item.title}</Text>
+              <Text>မေးခွန်း: {item.question}</Text>
+              <Text>အဖြေ: {getCorrectAnswer(item)}</Text>
+              <TouchableOpacity
+                onPress={() => deleteBookmark(item.id)}
+                style={{ position: "absolute", right: 10, top: "70%" }}
+              >
+                <Ionicons name="bookmark" size={24} color="#B581FD" />
+              </TouchableOpacity>
+            </View>
           )}
         />
       )}
