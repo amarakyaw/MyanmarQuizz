@@ -42,9 +42,10 @@ const TenQuestions = () => {
   const getQuiz = async () => {
     try {
       const url =
-        "https://cdn.jsdelivr.net/gh/amarakyaw/myanmar-api@main/db.json";
+        "https://cdn.jsdelivr.net/gh/amarakyaw/myanmar-api@920db62/db.json";
       const res = await fetch(url);
       const data = await res.json();
+      // console.log(data);
 
       const filtered = data.quiz.filter(
         (item: any) => item.title === category.trim(),
@@ -93,14 +94,16 @@ const TenQuestions = () => {
     try {
       const savedData = await AsyncStorage.getItem("bookmarks");
       let bookmarks: QuizItem[] = savedData ? JSON.parse(savedData) : [];
-
       const question = quiz.find((q) => q.id === id);
       if (!question) return;
 
-      if (!saved) {
-        bookmarks.push(question);
-      } else {
+      const isAlreadyBookmarked = bookmarks.some((q) => q.id === id);
+      if (isAlreadyBookmarked) {
         bookmarks = bookmarks.filter((q) => q.id !== id);
+        setSaved(false);
+      } else {
+        bookmarks.push(question);
+        setSaved(true);
       }
 
       await AsyncStorage.setItem("bookmarks", JSON.stringify(bookmarks));
@@ -131,7 +134,7 @@ const TenQuestions = () => {
       <Text style={styles.cardCategory}>{category}</Text>
       <View style={styles.quizCard}>
         <Text style={styles.cardQuestion}>
-          မေးခွန်းနံပါတ် {toMyanmarNumber(current + 1)} ။ {"\n"} {q.question}
+          မေးခွန်းနံပါတ် {toMyanmarNumber(current + 1)} {"\n"} {q.question}
         </Text>
 
         <View style={styles.cardOptions}>
