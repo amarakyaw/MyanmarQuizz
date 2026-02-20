@@ -16,7 +16,7 @@ const Category = () => {
           flexDirection: "row",
           alignItems: "flex-start",
           alignSelf: "flex-start",
-          marginTop: "20%",
+          marginTop: "10%",
         }}
       >
         <Ionicons name="arrow-back-outline" size={24} color="#4C1D95" />
@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
   btn: {
     width: "30%",
     marginTop: "30%",
+    borderRadius: 40,
   },
   container: {
     flex: 1,

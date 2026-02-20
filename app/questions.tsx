@@ -42,7 +42,7 @@ const TenQuestions = () => {
   const getQuiz = async () => {
     try {
       const url =
-        "https://cdn.jsdelivr.net/gh/amarakyaw/myanmar-api@920db62/db.json";
+        "https://cdn.jsdelivr.net/gh/amarakyaw/myanmar-api@87b6ac8/db.json";
       const res = await fetch(url);
       const data = await res.json();
       // console.log(data);
