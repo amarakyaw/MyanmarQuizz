@@ -131,6 +131,25 @@ const TenQuestions = () => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        onPress={() => router.back()}
+        style={{
+          flexDirection: "row",
+          alignItems: "flex-start",
+          alignSelf: "flex-start",
+          marginTop: "20%",
+        }}
+      >
+        <Ionicons name="arrow-back-outline" size={24} color="#4C1D95" />
+        <Text
+          style={{
+            fontSize: 16,
+            color: "#4C1D95",
+          }}
+        >
+          ရှေ့သို့
+        </Text>
+      </TouchableOpacity>
       <Text style={styles.cardCategory}>{category}</Text>
       <View style={styles.quizCard}>
         <Text style={styles.cardQuestion}>

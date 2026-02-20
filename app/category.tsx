@@ -16,7 +16,7 @@ const Category = () => {
           flexDirection: "row",
           alignItems: "flex-start",
           alignSelf: "flex-start",
-          marginTop: 10,
+          marginTop: "20%",
         }}
       >
         <Ionicons name="arrow-back-outline" size={24} color="#4C1D95" />
