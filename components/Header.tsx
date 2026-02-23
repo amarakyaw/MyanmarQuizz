@@ -12,7 +12,7 @@ const Header = ({ onHeaderPress }: HeaderProps) => {
     <SafeAreaView edges={["top"]} style={styles.safeArea}>
       <TouchableOpacity
         onPress={onHeaderPress}
-        activeOpacity={0.85}
+        activeOpacity={0.4}
         style={styles.backButton}
       >
         <Ionicons name="arrow-back" size={20} color="#4C1D95" />
