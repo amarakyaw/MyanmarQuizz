@@ -2,9 +2,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useContext, useEffect, useState } from "react";
 
+import Header from "@/components/Header";
 import { Ionicons } from "@expo/vector-icons";
 import {
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -19,15 +21,18 @@ type QuizItem = {
   option2: string;
   option3: string;
   option4: string;
+  type: string;
   correct_answer: string;
 };
 type numberQuestions = {
   numQuestions: string;
   category: string;
+  type: string;
 };
 
 const TenQuestions = () => {
-  const { numQuestions, category } = useLocalSearchParams<numberQuestions>();
+  const { numQuestions, category, type } =
+    useLocalSearchParams<numberQuestions>();
   const [quiz, setQuiz] = useState<QuizItem[]>([]);
   const [current, setCurrent] = useState(0);
   const { score, setScore, setTotal } = useContext(QuizContext);
@@ -42,13 +47,14 @@ const TenQuestions = () => {
   const getQuiz = async () => {
     try {
       const url =
-        "https://cdn.jsdelivr.net/gh/amarakyaw/myanmar-api@a8ca57c/db.json";
+        "https://cdn.jsdelivr.net/gh/amarakyaw/myanmar-api@b6b8fe8/db.json";
       const res = await fetch(url);
       const data = await res.json();
       // console.log(data);
 
       const filtered = data.quiz.filter(
-        (item: any) => item.title === category.trim(),
+        (item: any) =>
+          item.title === category.trim() && item.type == type.trim(),
       );
       const shuffled = filtered.sort(() => 0.5 - Math.random());
       setQuiz(shuffled.slice(0, Number(numQuestions)));
@@ -130,101 +136,97 @@ const TenQuestions = () => {
   const q = quiz[current];
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        onPress={() => router.back()}
-        style={{
-          flexDirection: "row",
-          alignItems: "flex-start",
-          alignSelf: "flex-start",
-          marginTop: "20%",
-        }}
-      >
-        <Ionicons name="arrow-back-outline" size={24} color="#4C1D95" />
-        <Text
-          style={{
-            fontSize: 16,
-            color: "#4C1D95",
-          }}
-        >
-          ရှေ့သို့
-        </Text>
-      </TouchableOpacity>
-      <Text style={styles.cardCategory}>{category}</Text>
-      <View style={styles.quizCard}>
-        <Text style={styles.cardQuestion}>
-          မေးခွန်းနံပါတ် {toMyanmarNumber(current + 1)} {"\n"} {q.question}
-        </Text>
-
-        <View style={styles.cardOptions}>
-          {(["option1", "option2", "option3", "option4"] as const).map(
-            (key, index) => {
-              const isCorrect = key === q.correct_answer;
-              const isSelected = selectedOption === key;
-
-              return (
-                <TouchableOpacity
-                  key={index}
-                  style={[
-                    styles.cardOptionButton,
-                    selectedOption && isCorrect
-                      ? { backgroundColor: "#69cc00" }
-                      : null,
-                    selectedOption && isSelected && !isCorrect
-                      ? { backgroundColor: "#ff4d52" }
-                      : null,
-                  ]}
-                  onPress={() => checkAnswer(key)}
-                  disabled={!!selectedOption}
-                >
-                  <Text
-                    style={[
-                      styles.cardOptionText,
-                      selectedOption && isCorrect ? { color: "white" } : null,
-                      selectedOption && isSelected && !isCorrect
-                        ? { color: "white" }
-                        : null,
-                    ]}
-                  >
-                    {q[key]}
-                  </Text>
-                </TouchableOpacity>
-              );
-            },
-          )}
-        </View>
-
-        <View style={styles.lengthRow}>
-          <Text style={styles.lengthText}>
-            မေးခွန်း {toMyanmarNumber(current + 1)} /{" "}
-            {toMyanmarNumber(quiz.length)}
-          </Text>
-          <Pressable onPress={() => saveItem(q.id)}>
-            <Text style={styles.bookmark}>
-              <Ionicons
-                name={saved ? "bookmark" : "bookmark-outline"}
-                size={24}
-                color="#B581FD"
-              />
+    <ScrollView style={styles.container}>
+      <View style={{ marginTop: "10%" }}>
+        <Header onHeaderPress={() => router.back()} />
+      </View>
+      <View>
+        <View style={styles.innerContainer}>
+          <Text style={styles.cardCategory}>{category}</Text>
+          <View style={styles.quizCard}>
+            <Text style={styles.cardQuestion}>
+              မေးခွန်းနံပါတ် {toMyanmarNumber(current + 1)} {"\n"} {q.question}
             </Text>
-          </Pressable>
+
+            <View style={styles.cardOptions}>
+              {(["option1", "option2", "option3", "option4"] as const).map(
+                (key, index) => {
+                  const isCorrect = key === q.correct_answer;
+                  const isSelected = selectedOption === key;
+
+                  return (
+                    <TouchableOpacity
+                      key={index}
+                      style={[
+                        styles.cardOptionButton,
+                        selectedOption && isCorrect
+                          ? { backgroundColor: "#69cc00" }
+                          : null,
+                        selectedOption && isSelected && !isCorrect
+                          ? { backgroundColor: "#ff4d52" }
+                          : null,
+                      ]}
+                      onPress={() => checkAnswer(key)}
+                      disabled={!!selectedOption}
+                    >
+                      <Text
+                        style={[
+                          styles.cardOptionText,
+                          selectedOption && isCorrect
+                            ? { color: "white" }
+                            : null,
+                          selectedOption && isSelected && !isCorrect
+                            ? { color: "white" }
+                            : null,
+                        ]}
+                      >
+                        {q[key]}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                },
+              )}
+            </View>
+
+            <View style={styles.lengthRow}>
+              <Text style={styles.lengthText}>
+                မေးခွန်း {toMyanmarNumber(current + 1)} /{" "}
+                {toMyanmarNumber(quiz.length)}
+              </Text>
+              <Pressable onPress={() => saveItem(q.id)}>
+                <Text style={styles.bookmark}>
+                  <Ionicons
+                    name={saved ? "bookmark" : "bookmark-outline"}
+                    size={24}
+                    color="#B581FD"
+                  />
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+
+          <View style={styles.bottom}>
+            <TouchableOpacity
+              style={[
+                styles.actionButton,
+                current === 0 ? { opacity: 0.5 } : null,
+              ]}
+              onPress={previousQuestion}
+              disabled={current === 0}
+            >
+              <Text style={styles.actionText}>ရှေ့သို့</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={nextQuestion}
+            >
+              <Text style={styles.actionText}>နောက်သို့</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-
-      <View style={styles.bottom}>
-        <TouchableOpacity
-          style={[styles.actionButton, current === 0 ? { opacity: 0.5 } : null]}
-          onPress={previousQuestion}
-          disabled={current === 0}
-        >
-          <Text style={styles.actionText}>ရှေ့သို့</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.actionButton} onPress={nextQuestion}>
-          <Text style={styles.actionText}>နောက်သို့</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -234,14 +236,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f3e8ff",
-    padding: 20,
+    // padding: 20,
+  },
+  innerContainer: {
     justifyContent: "center",
     alignItems: "center",
+    padding: 20,
   },
   bottom: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 30,
+    // marginBottom: 30,
     width: "100%",
     paddingHorizontal: 10,
   },
@@ -251,6 +256,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     borderRadius: 12,
     marginTop: "10%",
+    marginBottom: 30,
   },
   actionText: {
     fontSize: 18,

@@ -1,35 +1,19 @@
-import { Ionicons } from "@expo/vector-icons";
+import Header from "@/components/Header";
 import { router, useLocalSearchParams } from "expo-router";
 import React from "react";
-import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const QuizNumber = () => {
-  const handlePress = (num: number) => {
-    router.push(`/questions?numQuestions=${num}&category=${category}`);
+  const handlePress = (num: number, type: string) => {
+    router.push(
+      `/questions?numQuestions=${num}&category=${category}&type=${type}`,
+    );
   };
   const { category } = useLocalSearchParams<{ category: string }>();
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        onPress={() => router.navigate("/category")}
-        style={{
-          flexDirection: "row",
-          alignItems: "flex-start",
-          alignSelf: "flex-start",
-          marginTop: "20%",
-        }}
-      >
-        <Ionicons name="arrow-back-outline" size={24} color="#4C1D95" />
-        <Text
-          style={{
-            fontSize: 16,
-            color: "#4C1D95",
-            marginLeft: 6,
-          }}
-        >
-          ရှေ့သို့
-        </Text>
-      </TouchableOpacity>
+    <SafeAreaView style={styles.container}>
+      <Header onHeaderPress={() => router.navigate("/category")} />
 
       <View style={styles.innerText}>
         <Text style={styles.text}>မေးခွန်း အဆင့်</Text>
@@ -38,7 +22,7 @@ const QuizNumber = () => {
           <Button
             title="လွယ်ကူသော"
             color="#b58bf9"
-            onPress={() => handlePress(5)}
+            onPress={() => handlePress(5, "easy")}
           />
         </View>
 
@@ -46,18 +30,18 @@ const QuizNumber = () => {
           <Button
             title="သာမန်"
             color="#b58bf9"
-            onPress={() => handlePress(10)}
+            onPress={() => handlePress(10, "medium")}
           />
         </View>
         <View style={styles.buttonWrapper}>
           <Button
             title="ခက်ခဲသော"
             color="#b58bf9"
-            onPress={() => handlePress(20)}
+            onPress={() => handlePress(20, "hard")}
           />
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

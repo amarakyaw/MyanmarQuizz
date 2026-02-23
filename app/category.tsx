@@ -1,7 +1,7 @@
-import { Ionicons } from "@expo/vector-icons";
+import Header from "@/components/Header";
 import { router } from "expo-router";
 import React from "react";
-import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Category = () => {
@@ -10,20 +10,8 @@ const Category = () => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity
-        onPress={() => router.navigate("/")}
-        style={{
-          flexDirection: "row",
-          alignItems: "flex-start",
-          alignSelf: "flex-start",
-          marginTop: "10%",
-        }}
-      >
-        <Ionicons name="arrow-back-outline" size={24} color="#4C1D95" />
-        <Text style={{ fontSize: 16, color: "#4C1D95", marginLeft: 6 }}>
-          ရှေ့သို့
-        </Text>
-      </TouchableOpacity>
+      <Header onHeaderPress={() => router.navigate("/")} />
+
       <View style={styles.innerText}>
         <Text style={{ fontSize: 20, fontWeight: "bold", color: "#b58bf9" }}>
           {" "}
@@ -70,6 +58,6 @@ const styles = StyleSheet.create({
   innerText: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "20%",
+    marginTop: "10%",
   },
 });
