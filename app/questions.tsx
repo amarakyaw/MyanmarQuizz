@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Header from "@/components/Header";
 import { Ionicons } from "@expo/vector-icons";
 import {
+  Modal,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -39,6 +40,7 @@ const TenQuestions = () => {
   const [saved, setSaved] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [answers, setAnswers] = useState<Record<number, string | null>>({});
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     getQuiz();
@@ -47,7 +49,7 @@ const TenQuestions = () => {
   const getQuiz = async () => {
     try {
       const url =
-        "https://cdn.jsdelivr.net/gh/amarakyaw/myanmar-api@b6b8fe8/db.json";
+        "https://cdn.jsdelivr.net/gh/amarakyaw/myanmar-api@d90b598/db.json";
       const res = await fetch(url);
       const data = await res.json();
       // console.log(data);
@@ -135,17 +137,60 @@ const TenQuestions = () => {
 
   const q = quiz[current];
 
+  const closeModal = () => {
+    setVisible(false);
+  };
+  const confirmBack = () => {
+    router.navigate("/category");
+    setVisible(false);
+  };
+  const openModal = () => {
+    setVisible(true);
+  };
+
   return (
     <ScrollView style={styles.container}>
-      <View style={{ marginTop: "10%" }}>
-        <Header onHeaderPress={() => router.back()} />
+      <View>
+        <Header onHeaderPress={openModal} />
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={visible}
+          onRequestClose={closeModal}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalText}>မေးခွန်းကို ဆက်မဖြေတော့ပါ ။</Text>
+              <View style={styles.modalButtons}>
+                <TouchableOpacity
+                  onPress={confirmBack}
+                  style={styles.modalButton}
+                >
+                  <Text style={styles.modalButtonText}>မဖြေတော့ပါ ။</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={closeModal}
+                  style={[styles.modalButton, styles.confirmButton]}
+                >
+                  <Text style={[styles.modalButtonText, styles.confirmText]}>
+                    ဖြေမည် ။
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
       <View>
         <View style={styles.innerContainer}>
           <Text style={styles.cardCategory}>{category}</Text>
           <View style={styles.quizCard}>
             <Text style={styles.cardQuestion}>
-              မေးခွန်းနံပါတ် {toMyanmarNumber(current + 1)} {"\n"} {q.question}
+              မေးခွန်းနံပါတ်{" "}
+              <Text style={{ fontSize: 22 }}>
+                {toMyanmarNumber(current + 1)}
+              </Text>{" "}
+              {"\n"} {q.question}
             </Text>
 
             <View style={styles.cardOptions}>
@@ -214,14 +259,14 @@ const TenQuestions = () => {
               onPress={previousQuestion}
               disabled={current === 0}
             >
-              <Text style={styles.actionText}>ရှေ့သို့</Text>
+              <Text style={styles.actionText}>နောက်သို့</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.actionButton}
               onPress={nextQuestion}
             >
-              <Text style={styles.actionText}>နောက်သို့</Text>
+              <Text style={styles.actionText}>ရှေ့သို့</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -259,7 +304,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   actionText: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: "700",
     color: "#EEF3FB",
     marginTop: 0,
@@ -322,5 +367,46 @@ const styles = StyleSheet.create({
   },
   bookmark: {
     fontSize: 24,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "#f3e8ff",
+    padding: 20,
+    borderRadius: 10,
+    width: "80%",
+    alignItems: "center",
+    marginTop: "30%",
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  modalButton: {
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: "#ffff",
+    flex: 1,
+    marginHorizontal: 5,
+    alignItems: "center",
+  },
+  confirmButton: {
+    backgroundColor: "#b58bf9",
+  },
+  modalButtonText: {
+    fontSize: 16,
+  },
+  confirmText: {
+    color: "#fff",
   },
 });

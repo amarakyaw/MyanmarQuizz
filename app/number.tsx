@@ -2,7 +2,6 @@ import Header from "@/components/Header";
 import { router, useLocalSearchParams } from "expo-router";
 import React from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const QuizNumber = () => {
   const handlePress = (num: number, type: string) => {
@@ -12,9 +11,10 @@ const QuizNumber = () => {
   };
   const { category } = useLocalSearchParams<{ category: string }>();
   return (
-    <SafeAreaView style={styles.container}>
-      <Header onHeaderPress={() => router.navigate("/category")} />
-
+    <View style={styles.container}>
+      <View>
+        <Header onHeaderPress={() => router.navigate("/category")} />
+      </View>
       <View style={styles.innerText}>
         <Text style={styles.text}>မေးခွန်း အဆင့်</Text>
 
@@ -41,7 +41,7 @@ const QuizNumber = () => {
           />
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

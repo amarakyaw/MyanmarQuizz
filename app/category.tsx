@@ -2,18 +2,25 @@ import Header from "@/components/Header";
 import { router } from "expo-router";
 import React from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const Category = () => {
   const categoryRouter = (category: string) => {
     router.push(`/number?category=${category}`);
   };
   return (
-    <SafeAreaView style={styles.container}>
-      <Header onHeaderPress={() => router.navigate("/")} />
-
+    <View style={styles.container}>
+      <View>
+        <Header onHeaderPress={() => router.navigate("/")} />
+      </View>
       <View style={styles.innerText}>
-        <Text style={{ fontSize: 20, fontWeight: "bold", color: "#b58bf9" }}>
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            color: "#b58bf9",
+            marginTop: "10%",
+          }}
+        >
           {" "}
           မေးခွန်း အမျိုးအစား ရွေးချယ်ပါ။
         </Text>
@@ -39,7 +46,7 @@ const Category = () => {
           />
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -49,7 +56,6 @@ const styles = StyleSheet.create({
   btn: {
     width: "30%",
     marginTop: "30%",
-    borderRadius: 40,
   },
   container: {
     flex: 1,
