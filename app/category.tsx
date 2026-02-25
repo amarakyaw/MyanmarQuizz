@@ -13,32 +13,24 @@ const Category = () => {
         <Header onHeaderPress={() => router.navigate("/")} />
       </View>
       <View style={styles.innerText}>
-        <Text
-          style={{
-            fontSize: 20,
-            fontWeight: "bold",
-            color: "#b58bf9",
-            marginTop: "10%",
-          }}
-        >
-          {" "}
-          မေးခွန်း အမျိုးအစား ရွေးချယ်ပါ။
-        </Text>
-        <View style={styles.btn}>
+        <Text style={styles.text}>မေးခွန်း အမျိုးအစား ရွေးချယ်ပါ။</Text>
+
+        <View style={styles.buttonWrapper}>
           <Button
             title="စကားထာ"
             color="#b58bf9"
             onPress={() => categoryRouter("စကားထာ")}
           />
         </View>
-        <View style={styles.btn}>
+
+        <View style={styles.buttonWrapper}>
           <Button
             title="စကားပုံ"
             color="#b58bf9"
             onPress={() => categoryRouter("စကားပုံ")}
           />
         </View>
-        <View style={styles.btn}>
+        <View style={styles.buttonWrapper}>
           <Button
             title="စကားလိမ်"
             color="#b58bf9"
@@ -53,17 +45,23 @@ const Category = () => {
 export default Category;
 
 const styles = StyleSheet.create({
-  btn: {
-    width: "30%",
-    marginTop: "30%",
-  },
   container: {
     flex: 1,
     backgroundColor: "#f3e8ff",
   },
+  text: {
+    fontSize: 22,
+    color: "#b58bf9",
+    fontWeight: "bold",
+    marginBottom: 30,
+  },
+  buttonWrapper: {
+    width: "60%",
+    marginTop: "20%",
+  },
   innerText: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "10%",
+    marginTop: "20%",
   },
 });
