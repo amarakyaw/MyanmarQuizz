@@ -15,7 +15,7 @@ const Header = ({ onHeaderPress }: HeaderProps) => {
         activeOpacity={0.4}
         style={styles.backButton}
       >
-        <Ionicons name="arrow-back" size={20} color="#ffff" />
+        <Ionicons name="arrow-back" size={20} color="#4C1D95" />
         <Text style={styles.backText}>နောက်သို့</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -34,15 +34,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     alignSelf: "flex-start",
-    backgroundColor: "#b58bf9",
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 10,
   },
 
   backText: {
     fontSize: 15,
-    color: "#ffff",
+    color: "#4C1D95",
     marginLeft: 6,
     fontWeight: "600",
   },

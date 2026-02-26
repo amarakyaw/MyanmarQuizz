@@ -1,3 +1,4 @@
+import Header from "@/components/Header";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
@@ -10,7 +11,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 type QuizItem = {
   id: string;
@@ -75,23 +75,24 @@ const Bookmarks = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <TouchableOpacity
-        onPress={() => router.back()}
-        style={{ flexDirection: "row", alignItems: "center", marginBottom: 20 }}
-      >
-        <Ionicons name="arrow-back-outline" size={24} color="#4C1D95" />
-        <Text style={{ fontSize: 16, color: "#4C1D95", marginLeft: 6 }}>
-          နောက်သို့
-        </Text>
-      </TouchableOpacity>
+    <View style={styles.container}>
+      <Header onHeaderPress={() => router.navigate("/")} />
+
       {bookmarks.length === 0 ? (
-        <Text style={styles.emptyText}>မည်သည့်မေးခွန်းမှ မသိမ်းထားသေးပါ။</Text>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <Text style={styles.emptyText}>
+            မည်သည့်မေးခွန်းမှ မသိမ်းထားသေးပါ။
+          </Text>
+        </View>
       ) : (
         <FlatList
           data={bookmarks}
           keyExtractor={(item) => item.id}
-          renderItem={({ item, index }) => (
+          contentContainerStyle={{ padding: 20 }}
+          style={{ flex: 1 }}
+          renderItem={({ item }) => (
             <View style={styles.card}>
               <Text>{item.title}</Text>
               <Text>မေးခွန်း: {item.question}</Text>
@@ -101,7 +102,7 @@ const Bookmarks = () => {
                   setItemToDelete(item);
                   setModalVisible(true);
                 }}
-                style={{ position: "absolute", right: 10, top: "70%" }}
+                style={{ position: "absolute", right: 10, bottom: 10 }}
               >
                 <Ionicons name="bookmark" size={24} color="#B581FD" />
               </TouchableOpacity>
@@ -109,6 +110,7 @@ const Bookmarks = () => {
           )}
         />
       )}
+
       <Modal
         animationType="fade"
         transparent={true}
@@ -139,7 +141,7 @@ const Bookmarks = () => {
           </View>
         </View>
       </Modal>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -148,7 +150,7 @@ export default Bookmarks;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    // padding: 20,
     backgroundColor: "#f3e8ff",
   },
   card: {
@@ -161,7 +163,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     textAlign: "center",
-    marginTop: 50,
+    marginTop: 0,
     color: "#6B7280",
     fontSize: 16,
   },

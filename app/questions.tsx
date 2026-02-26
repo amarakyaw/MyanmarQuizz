@@ -25,6 +25,7 @@ type QuizItem = {
   type: string;
   correct_answer: string;
 };
+
 type numberQuestions = {
   numQuestions: string;
   category: string;
@@ -49,21 +50,37 @@ const TenQuestions = () => {
   const getQuiz = async () => {
     try {
       const url =
-        "https://cdn.jsdelivr.net/gh/amarakyaw/myanmar-api@058d09b/db.json";
+        "https://cdn.jsdelivr.net/gh/amarakyaw/myanmar-api@68e8a3e/db.json";
       const res = await fetch(url);
       const data = await res.json();
-      // console.log(data);
 
       const filtered = data.quiz.filter(
         (item: any) =>
           item.title === category.trim() && item.type == type.trim(),
       );
       const shuffled = filtered.sort(() => 0.5 - Math.random());
-      setQuiz(shuffled.slice(0, Number(numQuestions)));
+      const quizSubset = shuffled.slice(0, Number(numQuestions));
+
+      setQuiz(quizSubset);
       setTotal(Number(numQuestions));
       setScore(0);
+
+      if (quizSubset.length > 0) {
+        checkIfBookmarked(quizSubset[0].id);
+      }
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const checkIfBookmarked = async (id: string) => {
+    try {
+      const savedData = await AsyncStorage.getItem("bookmarks");
+      const bookmarks: QuizItem[] = savedData ? JSON.parse(savedData) : [];
+      const isBookmarked = bookmarks.some((q) => q.id === id);
+      setSaved(isBookmarked);
+    } catch (err) {
+      console.error("Error checking bookmark", err);
     }
   };
 
@@ -71,10 +88,24 @@ const TenQuestions = () => {
     if (current > 0) {
       const newIndex = current - 1;
       setCurrent(newIndex);
-      setSaved(false);
-      setSelectedOption(answers[newIndex] ?? null);
     }
   };
+
+  const nextQuestion = () => {
+    if (current < quiz.length - 1) {
+      const newIndex = current + 1;
+      setCurrent(newIndex);
+    } else {
+      router.push("/result");
+    }
+  };
+
+  useEffect(() => {
+    if (quiz.length > 0) {
+      setSelectedOption(answers[current] ?? null);
+      checkIfBookmarked(quiz[current].id);
+    }
+  }, [current, quiz]);
 
   const checkAnswer = (selected: string) => {
     const question = quiz[current];
@@ -97,8 +128,6 @@ const TenQuestions = () => {
   };
 
   const saveItem = async (id: string) => {
-    setSaved((prev) => !prev);
-
     try {
       const savedData = await AsyncStorage.getItem("bookmarks");
       let bookmarks: QuizItem[] = savedData ? JSON.parse(savedData) : [];
@@ -120,15 +149,11 @@ const TenQuestions = () => {
     }
   };
 
-  const nextQuestion = () => {
-    if (current < quiz.length - 1) {
-      const newIndex = current + 1;
-      setCurrent(newIndex);
-      setSaved(false);
-      setSelectedOption(answers[newIndex] ?? null);
-    } else {
-      router.push("/result");
-    }
+  const closeModal = () => setVisible(false);
+  const openModal = () => setVisible(true);
+  const confirmBack = () => {
+    router.navigate("/category");
+    setVisible(false);
   };
 
   if (quiz.length === 0) {
@@ -137,24 +162,13 @@ const TenQuestions = () => {
 
   const q = quiz[current];
 
-  const closeModal = () => {
-    setVisible(false);
-  };
-  const confirmBack = () => {
-    router.navigate("/category");
-    setVisible(false);
-  };
-  const openModal = () => {
-    setVisible(true);
-  };
-
   return (
     <ScrollView style={styles.container}>
       <View>
         <Header onHeaderPress={openModal} />
         <Modal
           animationType="fade"
-          transparent={true}
+          transparent
           visible={visible}
           onRequestClose={closeModal}
         >
@@ -181,94 +195,87 @@ const TenQuestions = () => {
           </View>
         </Modal>
       </View>
-      <View>
-        <View style={styles.innerContainer}>
-          <Text style={styles.cardCategory}>{category}</Text>
-          <View style={styles.quizCard}>
-            <Text style={styles.cardQuestion}>
-              မေးခွန်းနံပါတ်{" "}
-              <Text style={{ fontSize: 22 }}>
-                {toMyanmarNumber(current + 1)}
-              </Text>{" "}
-              {"\n"} {q.question}
-            </Text>
 
-            <View style={styles.cardOptions}>
-              {(["option1", "option2", "option3", "option4"] as const).map(
-                (key, index) => {
-                  const isCorrect = key === q.correct_answer;
-                  const isSelected = selectedOption === key;
+      <View style={styles.innerContainer}>
+        <Text style={styles.cardCategory}>{category}</Text>
 
-                  return (
-                    <TouchableOpacity
-                      key={index}
+        <View style={styles.quizCard}>
+          <Text style={styles.cardQuestion}>
+            မေးခွန်းနံပါတ်{" "}
+            <Text style={{ fontSize: 15 }}>{toMyanmarNumber(current + 1)}</Text>
+            {"\n"} {q.question}
+          </Text>
+
+          <View style={styles.cardOptions}>
+            {(["option1", "option2", "option3", "option4"] as const).map(
+              (key, index) => {
+                const isCorrect = key === q.correct_answer;
+                const isSelected = selectedOption === key;
+
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    style={[
+                      styles.cardOptionButton,
+                      selectedOption && isCorrect
+                        ? { backgroundColor: "#69cc00" }
+                        : null,
+                      selectedOption && isSelected && !isCorrect
+                        ? { backgroundColor: "#ff4d52" }
+                        : null,
+                    ]}
+                    onPress={() => checkAnswer(key)}
+                    disabled={!!selectedOption}
+                  >
+                    <Text
                       style={[
-                        styles.cardOptionButton,
-                        selectedOption && isCorrect
-                          ? { backgroundColor: "#69cc00" }
-                          : null,
+                        styles.cardOptionText,
+                        selectedOption && isCorrect ? { color: "white" } : null,
                         selectedOption && isSelected && !isCorrect
-                          ? { backgroundColor: "#ff4d52" }
+                          ? { color: "white" }
                           : null,
                       ]}
-                      onPress={() => checkAnswer(key)}
-                      disabled={!!selectedOption}
                     >
-                      <Text
-                        style={[
-                          styles.cardOptionText,
-                          selectedOption && isCorrect
-                            ? { color: "white" }
-                            : null,
-                          selectedOption && isSelected && !isCorrect
-                            ? { color: "white" }
-                            : null,
-                        ]}
-                      >
-                        {q[key]}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                },
-              )}
-            </View>
+                      {q[key]}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              },
+            )}
+          </View>
 
-            <View style={styles.lengthRow}>
-              <Text style={styles.lengthText}>
-                မေးခွန်း {toMyanmarNumber(current + 1)} /{" "}
-                {toMyanmarNumber(quiz.length)}
+          <View style={styles.lengthRow}>
+            <Text style={styles.lengthText}>
+              မေးခွန်း {toMyanmarNumber(current + 1)} /{" "}
+              {toMyanmarNumber(quiz.length)}
+            </Text>
+            <Pressable onPress={() => saveItem(q.id)}>
+              <Text style={styles.bookmark}>
+                <Ionicons
+                  name={saved ? "bookmark" : "bookmark-outline"}
+                  size={24}
+                  color="#B581FD"
+                />
               </Text>
-              <Pressable onPress={() => saveItem(q.id)}>
-                <Text style={styles.bookmark}>
-                  <Ionicons
-                    name={saved ? "bookmark" : "bookmark-outline"}
-                    size={24}
-                    color="#B581FD"
-                  />
-                </Text>
-              </Pressable>
-            </View>
+            </Pressable>
           </View>
+        </View>
 
-          <View style={styles.bottom}>
-            <TouchableOpacity
-              style={[
-                styles.actionButton,
-                current === 0 ? { opacity: 0.5 } : null,
-              ]}
-              onPress={previousQuestion}
-              disabled={current === 0}
-            >
-              <Text style={styles.actionText}>နောက်သို့</Text>
-            </TouchableOpacity>
+        <View style={styles.bottom}>
+          <TouchableOpacity
+            style={[
+              styles.actionButton,
+              current === 0 ? { opacity: 0.5 } : null,
+            ]}
+            onPress={previousQuestion}
+            disabled={current === 0}
+          >
+            <Text style={styles.actionText}>နောက်သို့</Text>
+          </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.actionButton}
-              onPress={nextQuestion}
-            >
-              <Text style={styles.actionText}>ရှေ့သို့</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity style={styles.actionButton} onPress={nextQuestion}>
+            <Text style={styles.actionText}>ရှေ့သို့</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
@@ -278,11 +285,7 @@ const TenQuestions = () => {
 export default TenQuestions;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f3e8ff",
-    // padding: 20,
-  },
+  container: { flex: 1, backgroundColor: "#f3e8ff" },
   innerContainer: {
     justifyContent: "center",
     alignItems: "center",
@@ -291,7 +294,6 @@ const styles = StyleSheet.create({
   bottom: {
     flexDirection: "row",
     justifyContent: "space-between",
-    // marginBottom: 30,
     width: "100%",
     paddingHorizontal: 10,
   },
@@ -316,7 +318,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 1,
     borderColor: "#E5E7EB",
-    marginTop: "10%",
     width: "100%",
   },
   cardCategory: {
@@ -326,16 +327,14 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   cardQuestion: {
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: "700",
     color: "#4C1D95",
     textAlign: "center",
     marginBottom: 20,
     lineHeight: 40,
   },
-  cardOptions: {
-    width: "100%",
-  },
+  cardOptions: { width: "100%" },
   cardOptionButton: {
     backgroundColor: "#F3E8FF",
     paddingVertical: 14,
@@ -344,10 +343,10 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   cardOptionText: {
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: "600",
-    textAlign: "center",
     color: "#4C1D95",
+    textAlign: "left",
   },
   lengthRow: {
     flexDirection: "row",
@@ -365,9 +364,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#6B7280",
   },
-  bookmark: {
-    fontSize: 24,
-  },
+  bookmark: { fontSize: 24 },
   modalOverlay: {
     flex: 1,
     justifyContent: "center",
@@ -382,11 +379,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: "30%",
   },
-  modalText: {
-    fontSize: 18,
-    marginBottom: 20,
-    textAlign: "center",
-  },
+  modalText: { fontSize: 18, marginBottom: 20, textAlign: "center" },
   modalButtons: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -400,13 +393,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     alignItems: "center",
   },
-  confirmButton: {
-    backgroundColor: "#b58bf9",
-  },
-  modalButtonText: {
-    fontSize: 16,
-  },
-  confirmText: {
-    color: "#fff",
-  },
+  confirmButton: { backgroundColor: "#b58bf9" },
+  modalButtonText: { fontSize: 16 },
+  confirmText: { color: "#fff" },
 });

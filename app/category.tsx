@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import { router } from "expo-router";
 import React from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const Category = () => {
   const categoryRouter = (category: string) => {
@@ -16,26 +16,28 @@ const Category = () => {
         <Text style={styles.text}>မေးခွန်း အမျိုးအစား ရွေးချယ်ပါ။</Text>
 
         <View style={styles.buttonWrapper}>
-          <Button
-            title="စကားထာ"
-            color="#b58bf9"
+          <TouchableOpacity
+            style={styles.customButton}
             onPress={() => categoryRouter("စကားထာ")}
-          />
+          >
+            <Text style={styles.buttonText}>စကားထာ</Text>
+          </TouchableOpacity>
         </View>
-
         <View style={styles.buttonWrapper}>
-          <Button
-            title="စကားပုံ"
-            color="#b58bf9"
+          <TouchableOpacity
+            style={styles.customButton}
             onPress={() => categoryRouter("စကားပုံ")}
-          />
+          >
+            <Text style={styles.buttonText}>စကားပုံ</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.buttonWrapper}>
-          <Button
-            title="စကားလိမ်"
-            color="#b58bf9"
+          <TouchableOpacity
+            style={styles.customButton}
             onPress={() => categoryRouter("စကားလိမ်")}
-          />
+          >
+            <Text style={styles.buttonText}>စကားလိမ်</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -63,5 +65,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: "20%",
+  },
+  customButton: {
+    backgroundColor: "#b58bf9",
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });

@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import { router, useLocalSearchParams } from "expo-router";
 import React from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const QuizNumber = () => {
   const handlePress = (num: number, type: string) => {
@@ -19,26 +19,28 @@ const QuizNumber = () => {
         <Text style={styles.text}>မေးခွန်း အဆင့်</Text>
 
         <View style={styles.buttonWrapper}>
-          <Button
-            title="လွယ်ကူသော"
-            color="#b58bf9"
+          <TouchableOpacity
+            style={styles.customButton}
             onPress={() => handlePress(5, "easy")}
-          />
+          >
+            <Text style={styles.buttonText}>လွယ်ကူသော</Text>
+          </TouchableOpacity>
         </View>
-
         <View style={styles.buttonWrapper}>
-          <Button
-            title="သာမန်"
-            color="#b58bf9"
+          <TouchableOpacity
+            style={styles.customButton}
             onPress={() => handlePress(10, "medium")}
-          />
+          >
+            <Text style={styles.buttonText}>သာမန်</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.buttonWrapper}>
-          <Button
-            title="ခက်ခဲသော"
-            color="#b58bf9"
+          <TouchableOpacity
+            style={styles.customButton}
             onPress={() => handlePress(20, "hard")}
-          />
+          >
+            <Text style={styles.buttonText}>ခက်ခဲသော</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -66,5 +68,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: "20%",
+  },
+  customButton: {
+    backgroundColor: "#b58bf9",
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });
