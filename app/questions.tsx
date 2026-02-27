@@ -58,6 +58,7 @@ const TenQuestions = () => {
         (item: any) =>
           item.title === category.trim() && item.type == type.trim(),
       );
+
       const shuffled = filtered.sort(() => 0.5 - Math.random());
       const quizSubset = shuffled.slice(0, Number(numQuestions));
 
@@ -86,15 +87,14 @@ const TenQuestions = () => {
 
   const previousQuestion = () => {
     if (current > 0) {
-      const newIndex = current - 1;
-      setCurrent(newIndex);
+      setCurrent(current - 1);
     }
   };
 
   const nextQuestion = () => {
     if (current < quiz.length - 1) {
-      const newIndex = current + 1;
-      setCurrent(newIndex);
+      setCurrent(current + 1);
+      setSelectedOption(null);
     } else {
       router.push("/result");
     }
@@ -135,6 +135,7 @@ const TenQuestions = () => {
       if (!question) return;
 
       const isAlreadyBookmarked = bookmarks.some((q) => q.id === id);
+
       if (isAlreadyBookmarked) {
         bookmarks = bookmarks.filter((q) => q.id !== id);
         setSaved(false);
@@ -151,6 +152,7 @@ const TenQuestions = () => {
 
   const closeModal = () => setVisible(false);
   const openModal = () => setVisible(true);
+
   const confirmBack = () => {
     router.navigate("/category");
     setVisible(false);
@@ -163,18 +165,19 @@ const TenQuestions = () => {
   const q = quiz[current];
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={{ flexGrow: 1 }}
+      showsVerticalScrollIndicator={false}
+    >
       <View>
         <Header onHeaderPress={openModal} />
-        <Modal
-          animationType="fade"
-          transparent
-          visible={visible}
-          onRequestClose={closeModal}
-        >
+
+        <Modal transparent visible={visible} animationType="fade">
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
               <Text style={styles.modalText}>မေးခွန်းကို ဆက်မဖြေတော့ပါ ။</Text>
+
               <View style={styles.modalButtons}>
                 <TouchableOpacity
                   onPress={confirmBack}
@@ -182,6 +185,7 @@ const TenQuestions = () => {
                 >
                   <Text style={styles.modalButtonText}>မဖြေတော့ပါ ။</Text>
                 </TouchableOpacity>
+
                 <TouchableOpacity
                   onPress={closeModal}
                   style={[styles.modalButton, styles.confirmButton]}
@@ -200,11 +204,16 @@ const TenQuestions = () => {
         <Text style={styles.cardCategory}>{category}</Text>
 
         <View style={styles.quizCard}>
-          <Text style={styles.cardQuestion}>
-            မေးခွန်းနံပါတ်{" "}
-            <Text style={{ fontSize: 15 }}>{toMyanmarNumber(current + 1)}</Text>
-            {"\n"} {q.question}
-          </Text>
+          <ScrollView
+            style={{ maxHeight: 140 }}
+            showsVerticalScrollIndicator={false}
+          >
+            <Text style={styles.cardQuestion}>
+              မေးခွန်းနံပါတ် {toMyanmarNumber(current + 1)}
+              {"\n\n"}
+              {q.question}
+            </Text>
+          </ScrollView>
 
           <View style={styles.cardOptions}>
             {(["option1", "option2", "option3", "option4"] as const).map(
@@ -217,12 +226,11 @@ const TenQuestions = () => {
                     key={index}
                     style={[
                       styles.cardOptionButton,
-                      selectedOption && isCorrect
-                        ? { backgroundColor: "#69cc00" }
-                        : null,
-                      selectedOption && isSelected && !isCorrect
-                        ? { backgroundColor: "#ff4d52" }
-                        : null,
+                      selectedOption &&
+                        isCorrect && { backgroundColor: "#69cc00" },
+                      selectedOption &&
+                        isSelected &&
+                        !isCorrect && { backgroundColor: "#ff4d52" },
                     ]}
                     onPress={() => checkAnswer(key)}
                     disabled={!!selectedOption}
@@ -230,10 +238,10 @@ const TenQuestions = () => {
                     <Text
                       style={[
                         styles.cardOptionText,
-                        selectedOption && isCorrect ? { color: "white" } : null,
-                        selectedOption && isSelected && !isCorrect
-                          ? { color: "white" }
-                          : null,
+                        selectedOption &&
+                          (isCorrect || (isSelected && !isCorrect)) && {
+                            color: "#fff",
+                          },
                       ]}
                     >
                       {q[key]}
@@ -249,24 +257,20 @@ const TenQuestions = () => {
               မေးခွန်း {toMyanmarNumber(current + 1)} /{" "}
               {toMyanmarNumber(quiz.length)}
             </Text>
+
             <Pressable onPress={() => saveItem(q.id)}>
-              <Text style={styles.bookmark}>
-                <Ionicons
-                  name={saved ? "bookmark" : "bookmark-outline"}
-                  size={24}
-                  color="#B581FD"
-                />
-              </Text>
+              <Ionicons
+                name={saved ? "bookmark" : "bookmark-outline"}
+                size={24}
+                color="#B581FD"
+              />
             </Pressable>
           </View>
         </View>
 
         <View style={styles.bottom}>
           <TouchableOpacity
-            style={[
-              styles.actionButton,
-              current === 0 ? { opacity: 0.5 } : null,
-            ]}
+            style={[styles.actionButton, current === 0 && { opacity: 0.5 }]}
             onPress={previousQuestion}
             disabled={current === 0}
           >
@@ -285,77 +289,71 @@ const TenQuestions = () => {
 export default TenQuestions;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#f3e8ff" },
+  container: {
+    flex: 1,
+    backgroundColor: "#f3e8ff",
+  },
+
   innerContainer: {
-    justifyContent: "center",
-    alignItems: "center",
+    flex: 1,
     padding: 20,
   },
-  bottom: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    paddingHorizontal: 10,
+
+  cardCategory: {
+    fontSize: 26,
+    fontWeight: "800",
+    color: "#b58bf9",
+    marginBottom: 16,
+    textAlign: "center",
   },
-  actionButton: {
-    backgroundColor: "#b58bf9",
-    paddingVertical: 14,
-    paddingHorizontal: 30,
-    borderRadius: 12,
-    marginTop: "10%",
-    marginBottom: 30,
-  },
-  actionText: {
-    fontSize: 15,
-    fontWeight: "700",
-    color: "#EEF3FB",
-    marginTop: 0,
-  },
+
   quizCard: {
     backgroundColor: "#FFFFFF",
-    borderRadius: 22,
-    padding: 24,
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
+    borderRadius: 24,
+    padding: 18,
     width: "100%",
+    height: 500,
+    shadowColor: "#000",
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    elevation: 4,
   },
-  cardCategory: {
-    fontSize: 30,
-    fontWeight: "700",
-    color: "#b58bf9",
-    marginBottom: 12,
-  },
+
   cardQuestion: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: "700",
     color: "#4C1D95",
-    textAlign: "center",
+    textAlign: "left",
     marginBottom: 20,
-    lineHeight: 40,
+    lineHeight: 26,
   },
-  cardOptions: { width: "100%" },
+
+  cardOptions: {
+    marginTop: 10,
+  },
+
   cardOptionButton: {
     backgroundColor: "#F3E8FF",
     paddingVertical: 14,
     paddingHorizontal: 16,
-    borderRadius: 30,
-    marginBottom: 14,
+    borderRadius: 16,
+    marginBottom: 12,
   },
+
   cardOptionText: {
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: "600",
     color: "#4C1D95",
-    textAlign: "left",
+    lineHeight: 22,
   },
+
   lengthRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
-    width: "100%",
-    marginTop: 10,
-    position: "relative",
+    marginTop: 12,
   },
+
   lengthText: {
     position: "absolute",
     left: 0,
@@ -364,36 +362,73 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#6B7280",
   },
-  bookmark: { fontSize: 24 },
+
+  bottom: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 25,
+  },
+
+  actionButton: {
+    backgroundColor: "#b58bf9",
+    paddingVertical: 14,
+    paddingHorizontal: 28,
+    borderRadius: 14,
+  },
+
+  actionText: {
+    fontSize: 15,
+    fontWeight: "700",
+    color: "#EEF3FB",
+  },
+
   modalOverlay: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
+
   modalContent: {
     backgroundColor: "#f3e8ff",
-    padding: 20,
-    borderRadius: 10,
-    width: "80%",
+    padding: 22,
+    borderRadius: 16,
+    width: "82%",
     alignItems: "center",
-    marginTop: "30%",
   },
-  modalText: { fontSize: 18, marginBottom: 20, textAlign: "center" },
+
+  modalText: {
+    fontSize: 17,
+    marginBottom: 20,
+    textAlign: "center",
+    fontWeight: "600",
+  },
+
   modalButtons: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
   },
+
   modalButton: {
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: "#ffff",
+    paddingVertical: 12,
+    borderRadius: 10,
+    backgroundColor: "#fff",
     flex: 1,
     marginHorizontal: 5,
     alignItems: "center",
   },
-  confirmButton: { backgroundColor: "#b58bf9" },
-  modalButtonText: { fontSize: 16 },
-  confirmText: { color: "#fff" },
+
+  confirmButton: {
+    backgroundColor: "#b58bf9",
+  },
+
+  modalButtonText: {
+    fontSize: 15,
+    fontWeight: "600",
+  },
+
+  confirmText: {
+    color: "#fff",
+  },
 });

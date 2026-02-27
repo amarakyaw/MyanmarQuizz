@@ -1,20 +1,22 @@
 import Header from "@/components/Header";
+import { FontAwesome } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const QuizNumber = () => {
+  const { category } = useLocalSearchParams<{ category: string }>();
+
   const handlePress = (num: number, type: string) => {
     router.push(
       `/questions?numQuestions=${num}&category=${category}&type=${type}`,
     );
   };
-  const { category } = useLocalSearchParams<{ category: string }>();
+
   return (
     <View style={styles.container}>
-      <View>
-        <Header onHeaderPress={() => router.navigate("/category")} />
-      </View>
+      <Header onHeaderPress={() => router.navigate("/category")} />
+
       <View style={styles.innerText}>
         <Text style={styles.text}>မေးခွန်း အဆင့်</Text>
 
@@ -23,23 +25,46 @@ const QuizNumber = () => {
             style={styles.customButton}
             onPress={() => handlePress(5, "easy")}
           >
-            <Text style={styles.buttonText}>လွယ်ကူသော</Text>
+            <View style={styles.buttonContent}>
+              <Text style={styles.buttonText}>လွယ်ကူသော</Text>
+              <View style={styles.starRow}>
+                <FontAwesome name="star" size={18} color="#fff" />
+                <FontAwesome name="star-o" size={18} color="#fff" />
+                <FontAwesome name="star-o" size={18} color="#fff" />
+              </View>
+            </View>
           </TouchableOpacity>
         </View>
+
         <View style={styles.buttonWrapper}>
           <TouchableOpacity
             style={styles.customButton}
             onPress={() => handlePress(10, "medium")}
           >
-            <Text style={styles.buttonText}>သာမန်</Text>
+            <View style={styles.buttonContent}>
+              <Text style={styles.buttonText}>သာမန်</Text>
+              <View style={styles.starRow}>
+                <FontAwesome name="star" size={18} color="#fff" />
+                <FontAwesome name="star" size={18} color="#fff" />
+                <FontAwesome name="star-o" size={18} color="#fff" />
+              </View>
+            </View>
           </TouchableOpacity>
         </View>
+
         <View style={styles.buttonWrapper}>
           <TouchableOpacity
             style={styles.customButton}
             onPress={() => handlePress(20, "hard")}
           >
-            <Text style={styles.buttonText}>ခက်ခဲသော</Text>
+            <View style={styles.buttonContent}>
+              <Text style={styles.buttonText}>ခက်ခဲသော</Text>
+              <View style={styles.starRow}>
+                <FontAwesome name="star" size={18} color="#fff" />
+                <FontAwesome name="star" size={18} color="#fff" />
+                <FontAwesome name="star" size={18} color="#fff" />
+              </View>
+            </View>
           </TouchableOpacity>
         </View>
       </View>
@@ -60,13 +85,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 30,
   },
-  buttonWrapper: {
-    width: "60%",
-    marginTop: "20%",
-  },
   innerText: {
     justifyContent: "center",
     alignItems: "center",
+    marginTop: "20%",
+  },
+  buttonWrapper: {
+    width: "60%",
     marginTop: "20%",
   },
   customButton: {
@@ -75,6 +100,15 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     alignItems: "center",
+  },
+  buttonContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  starRow: {
+    flexDirection: "row",
   },
   buttonText: {
     color: "white",

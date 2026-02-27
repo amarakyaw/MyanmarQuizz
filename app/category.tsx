@@ -20,7 +20,7 @@ const Category = () => {
             style={styles.customButton}
             onPress={() => categoryRouter("စကားထာ")}
           >
-            <Text style={styles.buttonText}>စကားထာ</Text>
+            <Text style={styles.buttonText}>📚စကားထာ</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.buttonWrapper}>
@@ -28,7 +28,7 @@ const Category = () => {
             style={styles.customButton}
             onPress={() => categoryRouter("စကားပုံ")}
           >
-            <Text style={styles.buttonText}>စကားပုံ</Text>
+            <Text style={styles.buttonText}>📚စကားပုံ</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.buttonWrapper}>
@@ -36,7 +36,7 @@ const Category = () => {
             style={styles.customButton}
             onPress={() => categoryRouter("စကားလိမ်")}
           >
-            <Text style={styles.buttonText}>စကားလိမ်</Text>
+            <Text style={styles.buttonText}>📚စကားလိမ်</Text>
           </TouchableOpacity>
         </View>
       </View>

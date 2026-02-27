@@ -1,16 +1,12 @@
-import React from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import React from "react";
+import { ScrollView, StyleSheet, Text } from "react-native";
 
-import { sakaLain } from '@/data/sakarlain';
+import { sakaLain } from "@/data/sakarlain";
 
 const Tab1 = () => {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.text}>{sakaLain}</Text>
-
-      {/* <Pressable onPress={() => router.navigate('../(tabs)/learn')}> 
-              <Text style={styles.backButton}>နောက်သို့သွားမည်။</Text>
-            </Pressable> */}
     </ScrollView>
   );
 };
@@ -21,19 +17,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor:'#F3E8FF'
+    backgroundColor: "#F3E8FF",
   },
   text: {
     fontSize: 16,
     lineHeight: 24,
-    opacity:0.6
- 
+    opacity: 0.6,
   },
   backButton: {
-    color: '#4C1D95',
+    color: "#4C1D95",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 20,
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
   },
 });
