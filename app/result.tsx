@@ -13,15 +13,16 @@ import { QuizContext, toMyanmarNumber } from "../context/quizContext";
 const { width } = Dimensions.get("window");
 
 const Result = () => {
-  const { score, total, setScore } = useContext(QuizContext);
-  const isPassed = score > total / 2;
+  const { score = 0, total = 0, setScore } = useContext(QuizContext);
+
+  const isPassed = total > 0 ? score > total / 2 : false;
 
   const handleRestart = () => {
     setScore(0);
-    router.push("/category");
+    router.replace("/category");
   };
 
-  const progress = score / total;
+  const progress = total > 0 ? score / total : 0;
   const progressPercent = Math.round(progress * 100);
 
   const ProgressBar = () => (
@@ -32,22 +33,22 @@ const Result = () => {
 
   return (
     <View style={styles.container}>
-      {isPassed ? (
-        <Image
-          source={require("../assets/images/award.png")}
-          style={styles.awardImage}
-          resizeMode="contain"
-        />
-      ) : (
+      {!isPassed ? (
         <Image
           source={require("../assets/images/gameover.png")}
           style={styles.failImage}
           resizeMode="contain"
         />
+      ) : (
+        <Image
+          source={require("../assets/images/award.png")}
+          style={styles.awardImage}
+          resizeMode="contain"
+        />
       )}
 
       <Text style={styles.title}>
-        {isPassed ? "ဂုဏ်ယူပါတယ် \n သင်အောင်မြင်ပါပြီ။" : "သင်မအောင်မြင်ပါ"}
+        {!isPassed ? "သင်မအောင်မြင်ပါ" : "ဂုဏ်ယူပါတယ် \n သင်အောင်မြင်ပါပြီ။"}
       </Text>
 
       <Text style={styles.score}>
@@ -91,11 +92,13 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     textAlign: "center",
     color: "#b58bf9",
+    marginBottom: 10,
   },
   score: {
     fontSize: 20,
     fontWeight: "600",
     color: "#b58bf9",
+    marginBottom: 20,
   },
   progressBar: {
     width: "80%",
@@ -115,7 +118,9 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 12,
-    height: 70,
+    height: 60,
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonText: {
     color: "white",

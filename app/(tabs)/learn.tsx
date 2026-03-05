@@ -5,29 +5,31 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 const Learn = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>ပဟေဠိအကြောင်းလေ့လာကြမယ်📚</Text>
+      <View style={{ marginTop: 80 }}>
+        <Text style={styles.title}>ပဟေဠိအကြောင်းလေ့လာကြမယ်📚</Text>
 
-      <View style={styles.cardContainer}>
-        <TouchableOpacity
-          style={styles.card}
-          onPress={() => router.navigate("/AboutSakahtar")}
-        >
-          <Text style={styles.cardText}>📖 စကားထာ</Text>
-        </TouchableOpacity>
+        <View style={styles.cardContainer}>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => router.navigate("/AboutSakahtar")}
+          >
+            <Text style={styles.cardText}>📖 စကားထာ</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.card}
-          onPress={() => router.navigate("/AboutSakapone")}
-        >
-          <Text style={styles.cardText}>📖 စကားပုံ</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => router.navigate("/AboutSakapone")}
+          >
+            <Text style={styles.cardText}>📖 စကားပုံ</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.card}
-          onPress={() => router.navigate("/aboutSakalain")}
-        >
-          <Text style={styles.cardText}>📖 စကားလိမ်</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => router.navigate("/aboutSakalain")}
+          >
+            <Text style={styles.cardText}>📖 စကားလိမ်</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -52,11 +54,14 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     width: "100%",
-    gap: 20,
+    gap: 10,
+    marginTop: 20,
+    padding: 30,
   },
   card: {
     backgroundColor: "#b58bf9",
-    paddingVertical: 18,
+
+    paddingVertical: 13,
     borderRadius: 12,
     alignItems: "center",
     marginBottom: 25,

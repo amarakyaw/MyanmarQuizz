@@ -4,7 +4,7 @@
     "slug": "MyanmarQuizApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/mmquiz.jpg",
     "scheme": "myanmarquizapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -14,24 +14,25 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "foregroundImage": "./assets/images/mmquiz.jpg",
+        "backgroundImage": "./assets/images/mmquiz.jpg"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.amarakyaw.MyanmarQuizApp"
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/mmquiz.jpg"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
+          "image": "./assets/images/mmquiz.jpg",
+          "imageWidth": 300,
+          "imageHeight": 300,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",
           "dark": {
@@ -44,6 +45,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "fd7f6fa2-4d6b-43fc-87cf-bd6d66c17ee9"
+      }
     }
   }
 }

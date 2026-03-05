@@ -50,7 +50,7 @@ const TenQuestions = () => {
   const getQuiz = async () => {
     try {
       const url =
-        "https://cdn.jsdelivr.net/gh/amarakyaw/myanmar-api@68e8a3e/db.json";
+        "https://cdn.jsdelivr.net/gh/amarakyaw/myanmar-api@d534888/db.json";
       const res = await fetch(url);
       const data = await res.json();
 
@@ -210,7 +210,7 @@ const TenQuestions = () => {
           >
             <Text style={styles.cardQuestion}>
               မေးခွန်းနံပါတ် {toMyanmarNumber(current + 1)}
-              {"\n\n"}
+              {"\n"}
               {q.question}
             </Text>
           </ScrollView>
@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
     color: "#4C1D95",
     textAlign: "left",
     marginBottom: 20,
-    lineHeight: 26,
+    lineHeight: 30,
   },
 
   cardOptions: {
@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "600",
     color: "#4C1D95",
-    lineHeight: 22,
+    lineHeight: 30,
   },
 
   lengthRow: {

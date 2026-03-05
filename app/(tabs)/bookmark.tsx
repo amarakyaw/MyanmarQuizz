@@ -27,6 +27,7 @@ const Bookmarks = () => {
   const [bookmarks, setBookmarks] = useState<QuizItem[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<QuizItem | null>(null);
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     const getBookmarks = async () => {
@@ -61,9 +62,19 @@ const Bookmarks = () => {
     setBookmarks(updated);
   };
 
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(false);
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
   const confirmDelete = () => {
     if (itemToDelete) {
       deleteBookmark(itemToDelete.id);
+      setShowToast(true);
     }
     setModalVisible(false);
     setItemToDelete(null);
@@ -141,6 +152,13 @@ const Bookmarks = () => {
           </View>
         </View>
       </Modal>
+      {showToast && (
+        <View style={styles.toast}>
+          <Text style={styles.toastText}>
+            မှတ်စုအား ဖျက်ပြီးပါပြီ <Text style={{ fontSize: 10 }}>✔️</Text>
+          </Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -150,7 +168,6 @@ export default Bookmarks;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // padding: 20,
     backgroundColor: "#f3e8ff",
   },
   card: {
@@ -206,5 +223,19 @@ const styles = StyleSheet.create({
   },
   confirmText: {
     color: "#fff",
+  },
+  toast: {
+    position: "absolute",
+    bottom: 40,
+    alignSelf: "center",
+    backgroundColor: "#b58bf9",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 20,
+  },
+
+  toastText: {
+    color: "#ffff",
+    fontSize: 14,
   },
 });
